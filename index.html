@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="om">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuusaa Walaloo Pro | 2026</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS SECTION --- */
+        :root {
+            --primary: #1a1a2e;
+            --accent: #d4af37; /* Gold color for 'Pro' look */
+            --bg: #f8f9fa;
+            --text: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Header & Search */
+        header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 80px 20px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        header h1 span { color: var(--accent); }
+
+        .search-container {
+            margin-top: 30px;
+        }
+
+        #searchInput {
+            width: 90%;
+            max-width: 500px;
+            padding: 15px 25px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            outline: none;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1100px;
+            margin: -50px auto 50px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* Poetry Cards */
+        .poem-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .poem-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .poem-card h2 {
+            font-family: 'Lora', serif;
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .author {
+            font-size: 0.85rem;
+            color: #777;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .content {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            white-space: pre-line;
+            color: #444;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: var(--primary);
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .container { margin-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Kuusaa <span>Walaloo</span></h1>
+        <p>Galaana Jechootaa fi Miira Onnee</p>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Mataduree walaloo barbaadi...">
+        </div>
+    </header>
+
+    <div class="container" id="poemGrid">
+        </div>
+
+    <footer>
+        <p>&copy; 2026 Kuusaa Walaloo Pro. Labata Oromiyaatiin kan qophaa'e.</p>
+    </footer>
+
+    <script>
+        /* --- JAVASCRIPT SECTION (Data & Logic) --- */
+        
+        // As keessatti walaloo barbaadde itti dabaluu dandeessa
+        const data = [
+            {
+                title: "Siifan Barreessa",
+                author: "Leellisaa A.",
+                text: "Addunyaa kana keessaa,\nFiladhee si qofaa,\nOnnee koo siif baneera,\nAti kootu onnee koo bofaa."
+            },
+            {
+                title: "Biyya Abbaa Koo",
+                author: "Biiftuu O.",
+                text: "Dachee dhaloota koo,\nMadda badhaadhinaa,\nOromiyaa haadha koo,\nSiin qaba miidhaginaa."
+            },
+            {
+                title: "Barnoota",
+                author: "Gammachuu T.",
+                text: "Barnoonni ifa jireenyaa,\nIji sammuu kan banu,\nDhaloota abdiin guute,\nKan hiyyummaa balleessu."
+            },
+            {
+                title: "Gootummaa",
+                author: "Jaalataa B.",
+                text: "Lafa dhiigaan eegame,\nSaba gootaan dhalate,\nOduu osoo hin taane,\nHojiin kan mul'ate."
+            }
+        ];
+
+        const poemGrid = document.getElementById('poemGrid');
+        const searchInput = document.getElementById('searchInput');
+
+        function renderPoems(filterText = "") {
+            poemGrid.innerHTML = "";
+            
+            const filtered = data.filter(item => 
+                item.title.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                poemGrid.innerHTML = `<p style="text-align:center; grid-column: 1/-1;">Walaloon ati barbaadde hin jiru.</p>`;
+                return;
+            }
+
+            filtered.forEach(poem => {
+                const card = document.createElement('div');
+                card.className = 'poem-card';
+                card.innerHTML = `
+                    <span class="author">Barreessaa: ${poem.author}</span>
+                    <h2>${poem.title}</h2>
+                    <div class="content">${poem.text}</div>
+                `;
+                poemGrid.appendChild(card);
+            });
+        }
+
+        // Dubbisaa yeroo barreessu (Real-time Search)
+        searchInput.addEventListener('input', (e) => {
+            renderPoems(e.target.value);
+        });
+
+        // Jalqaba irratti hunda agarsiisi
+        renderPoems();
+    </script>
+</body>
+</html>
